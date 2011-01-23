@@ -65,14 +65,16 @@ class MTCircleWidget(MTWidget):
 
 if __name__ == '__main__':
     win = getWindow()
+    win.style['bg-color'] = (0,0,0,0)
     for x in xrange(4):
-        circle = MTCircleWidget(pos=((win.width / 4.)*x + 50., win.height / 2.))
-        win.add_widget(circle)
+        for y in xrange(4):
+            circle = MTCircleWidget(pos=((win.width / 4.)*x + 70., (win.height / 3.) *y + 70.))
+            win.add_widget(circle)
     
-    circle2 = MTCircleWidget(pos=(win.width / 2., 100))
-    win.add_widget(circle2)
-    @circle2.event
-    def on_press(*largs):
-        print("on press")
+    #circle2 = MTCircleWidget(pos=(win.width / 2., 100))
+    #win.add_widget(circle2)
+    #@circle2.event
+    #def on_press(*largs):
+        #print("on press")
 
     runTouchApp()
