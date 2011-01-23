@@ -15,10 +15,6 @@ from os.path import realpath, join
 from glob import glob
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print 'Usage: python start.py [option] <directory>'
-        sys.exit(1)
-
     win = getWindow()
     pyjack = Pyjack()
     pyjack.connect()

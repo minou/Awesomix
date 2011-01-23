@@ -3,6 +3,10 @@
 
 import subprocess, sys
 
+if len(sys.argv) < 2:
+    print 'Usage: python start.py [option] <directory>'
+    sys.exit(1)
+
 #Lancement de qjackctl
 #qjackctl = subprocess.Popen("qjackctl")
 #qjackctl.poll()
