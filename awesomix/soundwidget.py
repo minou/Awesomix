@@ -4,8 +4,6 @@ from widgets.quarterbutton import MTQuarterButton
 from widgets.quarterslider import MTQuarterSlider
 
 from lib.sound import Sound
-from lib.soundmanager import SoundManager
-from lib.sooperloopersoundmanager import SooperlooperSoundManager
 
 class SoundWidget(MTOptionWidget):
     def __init__(self, sound, **kwargs):
@@ -13,11 +11,11 @@ class SoundWidget(MTOptionWidget):
         self.sound = sound
         self.ajout()
 
+    def get_sound(self):
+        return self.sound
+
     def rate_change(self, value, *largs):
         self.sound.do_rate(value)
-
-    def volume_change(self, value):
-        self.sound.set_volume(value)
 
     def scratch_change(self, value):
         self.sound.do_scratch_pos(value)
@@ -31,10 +29,6 @@ class SoundWidget(MTOptionWidget):
         rate.connect('on_value', self.rate_change)
         self.add_widget(rate)
         y+=1
-        volume = MTQuarterSlider(label = 'volume', label_visible = True, color=(y / 50., y / 20., y / 10.), slider_color=(y / 10., 0., y / 10))
-        volume.connect('on_value', self.volume_change)
-        self.add_widget(volume)
-        y+=1
         scratch = MTQuarterSlider(label = 'scratch', label_visible = True, color=(y / 50., y / 20., y / 10.), slider_color=(y / 10., 0., y / 10))
         scratch.connect('on_value', self.scratch_change)
         self.add_widget(scratch)
@@ -43,5 +37,8 @@ class SoundWidget(MTOptionWidget):
         reverse.connect('on_press', self.reverse_change)
         self.add_widget(reverse)
 
-    def on_press(self, *largs):
+    def on_touch_up(self, touch):
+        if not super(SoundWidget, self).on_touch_up(touch):
+            return
         self.sound.play()
+        return True
