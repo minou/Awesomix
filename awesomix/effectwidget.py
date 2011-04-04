@@ -10,7 +10,7 @@ class EffectWidget(MTOptionWidget):
         super(EffectWidget, self).__init__(**kwargs)
         self.list_sound_widget = list_sound_widget
         self.effect_radius = kwargs.get('effect_radius', 200)
-        self.effect_color = kwargs.get('effect_color', (0.2, 0.2, 0.8))
+        self.effect_color = kwargs.get('effect_color', (0.4, 0.1, 0.9))
         self._active = False
         self.label = kwargs.get('label', 'Effect')
         self.label_visible = kwargs.get('label_visible', True)
@@ -42,4 +42,4 @@ class EffectWidget(MTOptionWidget):
         super(EffectWidget, self).draw()
         if self._active:
             set_color(*self.effect_color)
-            drawCircle(pos=self.pos, radius=self.effect_radius)
+            drawSemiCircle(pos=self.pos, inner_radius=self.radius, outer_radius=self.effect_radius)

@@ -19,9 +19,20 @@ from glob import glob
 
 if __name__ == '__main__':
     win = getWindow()
-    manager = SooperlooperSoundManager()
-
     win.style['bg-color'] = (0,0,0,0) 
+
+    width = 0.
+    height = 0.
+    def random_position(width, height):
+        dx = dy = 100.
+        if (width > win.width):
+            width = 100.
+        else :
+            width += dx
+        height += dy
+        return (width, height)
+        
+    manager = SooperlooperSoundManager()
 
     list_sound_widget = []
 
@@ -38,12 +49,12 @@ if __name__ == '__main__':
     speaker_widget = SpeakerWidget(list_sound_widget, pos = (win.width / 2, win.height / 2 + 200))
     win.add_widget(speaker_widget)
 
-    effect = EffectWidget(list_sound_widget, pos = (100, 100))
+    effect = EffectWidget(list_sound_widget, pos = random_position(width, height))
     win.add_widget(effect)
 
     def on_button_press(filename, *largs):
         sound = manager.create(filename)
-        sound_widget = SoundWidget(sound, label=sound.soundid, label_visible=True)
+        sound_widget = SoundWidget(sound, label=sound.soundid, label_visible=True, pos = random_position(width, height))
         list_sound_widget.append(sound_widget)
         win.add_widget(sound_widget)
 
