@@ -14,12 +14,9 @@ class SpeakerWidget(MTOptionWidget):
         self.label = kwargs.get('label', 'Speaker')
         self.label_visible = kwargs.get('label_visible', True)
     
-    def on_touch_move(self, touch):
-        if not super(SpeakerWidget, self).on_touch_move(touch):
-            return
+    def on_update(self):
         for sound_widget in self.list_sound_widget:
             curpos = Vector(self.pos)
             sound_widget_pos = Vector(sound_widget.pos)
             distance = curpos.distance(sound_widget_pos)
             sound_widget.sound.set_volume(self.max_volume - (distance / 100.))
-        return True

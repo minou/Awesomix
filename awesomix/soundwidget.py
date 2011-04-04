@@ -37,8 +37,8 @@ class SoundWidget(MTOptionWidget):
         reverse.connect('on_press', self.reverse_change)
         self.add_widget(reverse)
 
-    def on_touch_up(self, touch):
-        if not super(SoundWidget, self).on_touch_up(touch):
+    def on_touch_down(self, touch):
+        if not super(SoundWidget, self).on_touch_down(touch):
             return
         self.sound.play()
         return True

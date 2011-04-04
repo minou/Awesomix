@@ -10,6 +10,7 @@ from lib.sooperloopersoundmanager import SooperlooperSoundManager
 from speaker import Speaker
 from speakerwidget import SpeakerWidget
 from soundwidget import SoundWidget
+from effectwidget import EffectWidget
 
 from simpleOSC import *
 import sys, os
@@ -37,9 +38,12 @@ if __name__ == '__main__':
     speaker_widget = SpeakerWidget(list_sound_widget, pos = (win.width / 2, win.height / 2 + 200))
     win.add_widget(speaker_widget)
 
+    effect = EffectWidget(list_sound_widget, pos = (100, 100))
+    win.add_widget(effect)
+
     def on_button_press(filename, *largs):
         sound = manager.create(filename)
-        sound_widget = SoundWidget(sound)
+        sound_widget = SoundWidget(sound, label=sound.soundid, label_visible=True)
         list_sound_widget.append(sound_widget)
         win.add_widget(sound_widget)
 
