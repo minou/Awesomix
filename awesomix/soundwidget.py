@@ -9,6 +9,7 @@ class SoundWidget(MTOptionWidget):
     def __init__(self, sound, **kwargs):
         super(SoundWidget, self).__init__(**kwargs)
         self.sound = sound
+        self._position = self.pos
         self.ajout()
 
     def get_sound(self):
@@ -36,9 +37,17 @@ class SoundWidget(MTOptionWidget):
         reverse = MTQuarterButton(label = 'reverse', label_visible = True, color=(y / 50., y / 20., y / 10.), slider_color=(y / 10., 0., y / 10))
         reverse.connect('on_press', self.reverse_change)
         self.add_widget(reverse)
+        
+    def collide_point_play(self, x, y):
+        curpos = Vector(self._position)
+        touchpos = Vector(x, y)
+        distance = curpos.distance(touchpos)
+        return distance <= self.radius
 
-    def on_touch_down(self, touch):
-        if not super(SoundWidget, self).on_touch_down(touch):
+    def on_touch_up(self, touch):
+        if not super(SoundWidget, self).on_touch_up(touch):
             return
-        self.sound.play()
+        if self.collide_point_play(touch.x, touch.y):
+            self.sound.play()
+        self._position = touch.pos
         return True
