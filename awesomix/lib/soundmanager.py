@@ -7,9 +7,6 @@ class SoundManager(object):
     
     def create(self, filename):
         pass
-    
-    def load(self, soundid):
-        pass
 
     def play(self, soundid):
         pass
@@ -19,15 +16,6 @@ class SoundManager(object):
 
     def stop(self, soundid):
         pass
-    
-    def search(self, filename):
-        pass
 
-    def do_rate(self, soundid, value):
-        pass
-
-    def do_scratch_pos(self, soundid, value):
-        pass
-    
-    def do_reverse(self, soundid):
+    def do(self, soundid, name, value):
         pass

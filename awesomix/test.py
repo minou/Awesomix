@@ -31,16 +31,27 @@ if __name__ == '__main__':
             width += dx
         height += dy
         return (width, height)
-        
+    
     manager = SooperlooperSoundManager()
 
     list_sound_widget = []
+    list_effect = [('rate', 4), ('scratch_pos', 0), ('reverse', 0)]
 
     selectSound = MTOptionWidget(label = 'Select', label_visible = True, pos = win.center)
     win.add_widget(selectSound)
 
-    #selectEffect = MTOptionWidget(label = 'Effect', label_visible = True, pos = (100, 100))
-    #win.add_widget(selectEffect)
+    def on_effect_press(name, value, *largs):
+        effect = EffectWidget(list_sound_widget, name, value, pos = random_position(width, height))
+        win.add_widget(effect)
+
+    selectEffect = MTOptionWidget(label = 'Effect', label_visible = True, pos = (500, 200))
+    x = 0
+    for name, value in list_effect:
+        effect = MTQuarterButton(label=name, label_visible=True, color=(0.6+x*0.1, 0.1, 0.3))
+        effect.connect('on_press', curry(on_effect_press, name, value))
+        selectEffect.add_widget(effect)
+        x+=1
+    win.add_widget(selectEffect)
 
     speaker = Speaker(manager)
     speaker.connect_right_speaker()
@@ -49,10 +60,7 @@ if __name__ == '__main__':
     speaker_widget = SpeakerWidget(list_sound_widget, pos = (win.width / 2, win.height / 2 + 200))
     win.add_widget(speaker_widget)
 
-    effect = EffectWidget(list_sound_widget, pos = random_position(width, height))
-    win.add_widget(effect)
-
-    def on_button_press(filename, *largs):
+    def on_sound_press(filename, *largs):
         sound = manager.create(filename)
         sound_widget = SoundWidget(sound, label=sound.soundid, label_visible=True, pos = random_position(width, height))
         list_sound_widget.append(sound_widget)
@@ -61,7 +69,7 @@ if __name__ == '__main__':
     x = 0
     for filename in glob(join(sys.argv[len(sys.argv) - 1], '*.wav')):
         option = MTQuarterButton(label=filename, color=(x / 20.,0,x / 10.))
-        option.connect('on_press', curry(on_button_press, option.get_label()))
+        option.connect('on_press', curry(on_sound_press, filename))
         selectSound.add_widget(option)
         x+=1
 

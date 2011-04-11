@@ -33,10 +33,6 @@ class Sound(object):
         self.load()
         filename = property(_get_filename, _set_filename)
 
-
-    def load(self):
-        self._manager.load(self.soundid)
-
     def play(self):
         if (self._pause == True):
             self._manager.play(self.soundid)
@@ -48,11 +44,5 @@ class Sound(object):
     def stop(self):
         self._manager.stop(self.soundid)
 
-    def do_rate(self, value):
-        self._manager.do_rate(self.soundid, value)
-
-    def do_scratch_pos(self, value):
-        self._manager.do_scratch_pos(self.soundid, value)
-
-    def do_reverse(self):
-        self._manager.do_reverse(self.soundid)
+    def do(self, name, value):
+        self._manager.do(self.soundid, name, value)
