@@ -41,17 +41,19 @@ class EffectWidget(MTOptionWidget):
             if (distance < self.effect_radius_global + self.radius):
                 if (distance <= self.radius):
                     return
-                ens_list_sound = set(self.list_sound)
-                ens_sound = set([sound_widget.sound])
-                self.list_sound = list(ens_sound & ens_list_sound)
+                #ens_list_sound = set(self.list_sound)
+                #ens_sound = set([sound_widget.sound])
+                #self.list_sound = list(ens_sound & ens_list_sound)
+                self.list_sound.append(sound_widget.sound)
+                self.list_sound = list(set(self.list_sound))
                 if (self.value != 0):
                     value = int(abs((distance - self.radius) / self.effect_radius))
                     print(self.list_sound)
                     sound_widget.sound.do(self.name, value)
                     return
                 sound_widget.sound.do(self.name, self.value)
-        else:
-            self.list_sound = [sound for sound in self.list_sound if sound != sound_widget.sound]
+            #else:
+                #self.list_sound.remove(sound_widget.sound)
 
 
     def draw(self):
