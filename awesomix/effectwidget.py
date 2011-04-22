@@ -34,7 +34,6 @@ class EffectWidget(MTOptionWidget):
         return True
 
     def on_update(self):
-        print(self.list_sound)
         for sound_widget in self.list_sound_widget:
             sound = sound_widget.sound
             curpos = Vector(self.pos)
@@ -47,15 +46,15 @@ class EffectWidget(MTOptionWidget):
                 self.list_sound = list(set(self.list_sound))
                 if (self.value != 0):
                     value = int(abs((distance - self.radius) / self.effect_radius))
-                    sound.do(self.name, value)
+                    sound.do(self.name, value=value)
                 else:
-                    sound.do(self.name, 1)
+                    sound.do(self.name)
             else:
                 if sound in self.list_sound:
                     if self.value != 0:
-                        sound.do(self.name, 1)
+                        sound.do(self.name)
                     else:
-                        sound.do(self.name, self.value)
+                        sound.do(self.name, value=self.value)
                     self.list_sound.remove(sound)
 
 

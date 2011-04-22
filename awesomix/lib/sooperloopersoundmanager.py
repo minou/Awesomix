@@ -12,9 +12,8 @@ class SooperlooperSoundManager(SoundManager):
         self._nextid = 0
         self._sounds = {}
         self.values = {}
-
-    def get_sounds(self):
-        return self._sounds
+        self.list_hit = ['trigger', 'pause', 'solo', 'reverse']
+        self.list_set = ['wet', 'rate', 'scratch_pos']
 
     def nextid(self):
         soundid = self._nextid
@@ -27,13 +26,14 @@ class SooperlooperSoundManager(SoundManager):
         sound = Sound(self, filename, soundid)
         self._sounds[soundid] = sound
         sendOSCMsg('/sl/%d/load_loop' % soundid, [filename, self.addr, '/loop/%d' % soundid])
+        #_len = sendOSCMsg('/sl/%d/get' % soundid, [filename, self.addr, '/loop/%d' % soundid])
         return sound
 
     def play(self, soundid):
-        sendOSCMsg('/sl/%d/hit' %soundid, ['trigger'])
+        self.do(soundid, 'trigger')
 
     def pause(self, soundid):
-        sendOSCMsg('/sl/%d/hit' %soundid, ['pause'])
+        self.do(soundid, 'pause')
 
     def stop(self, soundid):
         sendOSCMsg('/loop_del', ['%d'] %soundid)
@@ -41,37 +41,28 @@ class SooperlooperSoundManager(SoundManager):
     def set_volume(self, soundid, volume):
         sendOSCMsg('/sl/%d/set' %soundid, ['wet', volume])
 
-    def do(self, soundid, name, value):
+    def do_reverse(self, soundid):
+        _value = self.values.get('reverse', 0)
+        if _value == 0:
+            sendOSCMsg('/sl/%d/hit' %soundid, ['reverse'])
+            _value = 1
+        if _value == 1:
+            sendOSCMsg('/sl/%d/hit' %soundid, ['trigger'])
+            _value = 0
+        self.values['reverse'] = _value
+
+
+    def do(self, soundid, name, **kwargs):
+        if name in self.list_hit:
+            if name == 'reverse':
+                self.do_reverse(soundid)
+            else:
+                sendOSCMsg('/sl/%d/hit' %soundid, [name])
+            return
+        value = kwargs.get('value', 1)
         _value = self.values.get(name, None)
         if _value == value:
             return
-        if value is not None:
+        if name in self.list_set:
             sendOSCMsg('/sl/%d/set' %soundid, [name, value])
         self.values[name] = value
-
-
-
-
-
-
-#    def do_trigger(self):
-        #self.send('hit', ['trigger'])
-
-    #def do_volume(self, value):
-        #self.send('set', ['input_gain', value])
-
-    #def do_rate(self, value):
-        #self.send('set', ['rate', int(value * 5)])
-
-    #def do_scratch_pos(self, value):
-        #self.send('set', ['scratch_pos', value])
-
-
-    #def do_rate(self, soundid, value):
-        #sendOSCMsg('/sl/%d/set' %soundid, ['rate', int(value * 5)])
-
-    #def do_scratch_pos(self, soundid, value):
-        #sendOSCMsg('/sl/%d/set' %soundid, ['scratch_pos', value])
-    
-    #def do_reverse(self, soundid):
-        #sendOSCMsg('/sl/%d/hit' %soundid, ['reverse'])

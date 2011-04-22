@@ -35,7 +35,7 @@ if __name__ == '__main__':
     manager = SooperlooperSoundManager()
 
     list_sound_widget = []
-    list_effect = [('rate', 5), ('scratch_pos', 0)]
+    list_effect = [('rate', 5), ('reverse', 0), ('scratch_pos', 0)]
 
     selectSound = MTOptionWidget(label = 'Select', label_visible = True, pos = win.center)
     win.add_widget(selectSound)

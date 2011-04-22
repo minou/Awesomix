@@ -7,6 +7,7 @@ class Sound(object):
         self._volume = kwargs.get('volume', 0.5)
         self.volume = self._volume
         self._pause = True
+        self._len = kwargs.get('len', 20)
 
     @property
     def pause(self):
@@ -44,5 +45,5 @@ class Sound(object):
     def stop(self):
         self._manager.stop(self.soundid)
 
-    def do(self, name, value):
-        self._manager.do(self.soundid, name, value)
+    def do(self, name, **kwargs):
+        self._manager.do(self.soundid, name, **kwargs)

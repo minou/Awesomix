@@ -17,5 +17,5 @@ class SoundManager(object):
     def stop(self, soundid):
         pass
 
-    def do(self, soundid, name, value):
+    def do(self, soundid, name, **kwargs):
         pass
